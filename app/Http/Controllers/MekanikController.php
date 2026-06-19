@@ -45,8 +45,9 @@ class MekanikController extends Controller
             'nama'         => ['required', 'string', 'max:100'],
             'no_hp'        => ['nullable', 'string', 'max:20'],
             'jabatan'      => ['nullable', 'string', 'max:100'],
-            'status'       => ['required', 'in:aktif,nonaktif'],
         ]);
+
+        $data['status'] = 'aktif';
 
         Mekanik::create($data);
 
@@ -72,7 +73,6 @@ class MekanikController extends Controller
             'nama'         => ['required', 'string', 'max:100'],
             'no_hp'        => ['nullable', 'string', 'max:20'],
             'jabatan'      => ['nullable', 'string', 'max:100'],
-            'status'       => ['required', 'in:aktif,nonaktif'],
         ]);
 
         $mekanik->update($data);

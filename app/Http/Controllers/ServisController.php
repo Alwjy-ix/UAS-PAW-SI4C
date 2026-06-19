@@ -38,9 +38,9 @@ class ServisController extends Controller
         return view('servis.create', [
             'motors'     => Motor::with('pelanggan')->orderBy('no_polisi')->get(),
             'mekaniks'   => Mekanik::where('status', 'aktif')
-                ->whereHas('jadwal', function ($q) {
+                ->whereDoesntHave('jadwal', function ($q) {
                     $q->whereDate('tanggal', today())
-                      ->where('status', 'hadir');
+                      ->where('status', 'izin');
                 })
                 ->orderBy('nama')->get(),
             'spareparts' => Sparepart::orderBy('nama_part')->get(),

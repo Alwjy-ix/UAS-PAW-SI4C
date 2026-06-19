@@ -53,14 +53,7 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="status">Status <span class="required">*</span></label>
-            <select name="status" id="status" class="form-control @error('status') is-invalid @enderror" required>
-                <option value="aktif" {{ old('status', 'aktif') === 'aktif' ? 'selected' : '' }}>Aktif</option>
-                <option value="nonaktif" {{ old('status') === 'nonaktif' ? 'selected' : '' }}>Nonaktif</option>
-            </select>
-            @error('status') <span class="field-error"><i class="bi bi-exclamation-circle"></i> {{ $message }}</span> @enderror
-        </div>
+
 
         <div class="form-actions">
             <button type="submit" class="btn-primary">
