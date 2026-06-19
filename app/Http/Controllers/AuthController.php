@@ -34,8 +34,16 @@ class AuthController extends Controller
             return redirect()->intended('dashboard');
         }
 
+        $userExists = User::where('email', $request->email)->exists();
+
+        if (!$userExists) {
+            throw ValidationException::withMessages([
+                'email' => 'Akun belum terdaftar, silahkan daftar dulu.',
+            ]);
+        }
+
         throw ValidationException::withMessages([
-            'email' => trans('auth.failed'),
+            'email' => 'Password yang Anda masukkan salah.',
         ]);
     }
 

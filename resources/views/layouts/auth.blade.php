@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
-    <link rel="stylesheet" href="{{ asset('css/auth.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="/css/auth.css?v={{ time() }}">
 </head>
 <body>
     @yield('content')
