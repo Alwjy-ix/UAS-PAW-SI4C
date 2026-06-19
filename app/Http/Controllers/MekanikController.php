@@ -24,10 +24,6 @@ class MekanikController extends Controller
             });
         }
 
-        if ($status = $request->input('status')) {
-            $query->where('status', $status);
-        }
-
         $mekaniks = $query->latest()->paginate(10)->withQueryString();
 
         return view('mekanik.index', compact('mekaniks', 'search'));

@@ -77,6 +77,13 @@ class ServisController extends Controller
 
             foreach ($data['sparepart'] ?? [] as $item) {
                 $sparepart = Sparepart::findOrFail($item['id']);
+
+                if ($sparepart->stok < $item['qty']) {
+                    throw \Illuminate\Validation\ValidationException::withMessages([
+                        'sparepart' => "Stok {$sparepart->nama_part} tidak mencukupi. Sisa stok saat ini: {$sparepart->stok}.",
+                    ]);
+                }
+
                 $subtotal  = $sparepart->harga_jual * $item['qty'];
                 $totalSparepart += $subtotal;
 
@@ -99,6 +106,12 @@ class ServisController extends Controller
         return redirect()
             ->route('servis.create')
             ->with('success', "Servis {$servis->no_servis} berhasil disimpan.");
+    }
+
+    public function show(Servis $servis)
+    {
+        $servis->load(['motor.pelanggan', 'mekanik', 'sparepart.sparepart']);
+        return view('servis.show', compact('servis'));
     }
 
     /**

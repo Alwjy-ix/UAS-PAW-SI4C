@@ -40,6 +40,7 @@
                 <th>Mekanik</th>
                 <th>Status</th>
                 <th class="text-right">Total Biaya</th>
+                <th class="text-center">Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -82,6 +83,11 @@
                 </td>
                 <td class="text-right fw-600">
                     Rp {{ number_format($item->total_biaya, 0, ',', '.') }}
+                </td>
+                <td class="text-center">
+                    <a href="{{ route('servis.show', $item) }}" class="btn-icon btn-icon--edit" title="Lihat Detail">
+                        <i class="bi bi-file-earmark-text"></i>
+                    </a>
                 </td>
             </tr>
             @empty

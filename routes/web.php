@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/servis', [ServisController::class, 'index'])->name('servis.index');
     Route::get('/servis/tambah', [ServisController::class, 'create'])->name('servis.create');
     Route::post('/servis', [ServisController::class, 'store'])->name('servis.store');
+    Route::get('/servis/{servis}', [ServisController::class, 'show'])->name('servis.show');
     Route::post('/servis/{servis}/status', [ServisController::class, 'updateStatus'])->name('servis.updateStatus');
 
     Route::get('/pkb', [PkbController::class, 'index'])->name('pkb.index');

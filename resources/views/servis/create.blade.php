@@ -47,6 +47,11 @@
 
     <div class="bengkel-panel">
         <h2 class="panel-title">Sparepart yang digunakan</h2>
+        @error('sparepart')
+        <div class="alert alert-danger" style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 4px; margin-bottom: 15px;">
+            <i class="bi bi-exclamation-triangle-fill"></i> {{ $message }}
+        </div>
+        @enderror
         <div id="sparepartRows"></div>
         <button type="button" id="btnTambahPart" class="btn-secondary-outline">
             <i class="bi bi-plus-lg"></i> Tambah sparepart
@@ -79,7 +84,9 @@
         <select name="sparepart[__INDEX__][id]" class="form-control sparepart-select" required>
             <option value="" disabled selected>Pilih sparepart...</option>
             @foreach ($spareparts as $part)
-            <option value="{{ $part->id }}" data-harga="{{ $part->harga_jual }}">{{ $part->nama_part }} ({{ $part->kode_part }}) - Rp {{ number_format($part->harga_jual, 0, ',', '.') }}</option>
+            <option value="{{ $part->id }}" data-harga="{{ $part->harga_jual }}" {{ $part->stok <= 0 ? 'disabled' : '' }}>
+                {{ $part->nama_part }} ({{ $part->kode_part }}) - Stok: {{ $part->stok }} - Rp {{ number_format($part->harga_jual, 0, ',', '.') }}
+            </option>
             @endforeach
         </select>
         <input type="number" name="sparepart[__INDEX__][qty]" class="form-control sparepart-qty" min="1" value="1" required>

@@ -23,11 +23,6 @@
         <a href="{{ route('mekanik.index') }}" class="search-clear"><i class="bi bi-x-circle-fill"></i></a>
         @endif
     </div>
-    <select name="status" class="form-control" style="width:140px">
-        <option value="">Semua status</option>
-        <option value="aktif" {{ request('status') === 'aktif' ? 'selected' : '' }}>Aktif</option>
-        <option value="nonaktif" {{ request('status') === 'nonaktif' ? 'selected' : '' }}>Nonaktif</option>
-    </select>
     <button type="submit" class="btn-primary">Cari</button>
 </form>
 
@@ -41,7 +36,6 @@
                 <th>No. HP</th>
                 <th>Jabatan</th>
                 <th class="text-center">Total Servis</th>
-                <th class="text-center">Status</th>
                 <th class="text-center">Aksi</th>
             </tr>
         </thead>
@@ -78,19 +72,6 @@
                     <span class="badge-count">{{ $mekanik->servis_count }}</span>
                 </td>
                 <td class="text-center">
-                    @php
-                        $jadwalHariIni = $mekanik->jadwal->first();
-                        $isIzin = $jadwalHariIni && $jadwalHariIni->status === 'izin';
-                    @endphp
-                    @if($isIzin)
-                        <span class="badge-status" style="background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba;">Izin</span>
-                    @else
-                        <span class="badge-status {{ $mekanik->status === 'aktif' ? 'badge-status--selesai' : 'badge-status--nonaktif' }}">
-                            {{ ucfirst($mekanik->status) }}
-                        </span>
-                    @endif
-                </td>
-                <td class="text-center">
                     <div class="action-btns">
 
                         <a href="{{ route('mekanik.edit', $mekanik) }}" class="btn-icon btn-icon--edit" title="Edit">
@@ -109,7 +90,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="7" class="empty-row">
+                <td colspan="6" class="empty-row">
                     @if($search)
                         Tidak ada mekanik dengan kata kunci "<strong>{{ $search }}</strong>".
                     @else
