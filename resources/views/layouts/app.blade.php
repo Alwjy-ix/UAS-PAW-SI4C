@@ -57,17 +57,42 @@
         <div class="bengkel-main">
             <header class="bengkel-topbar">
                 <h1 class="bengkel-page-title">@yield('title', 'Dashboard')</h1>
-                <div class="bengkel-topbar-user" style="display:flex; align-items:center; gap: 1rem;">
-                    <div style="display:flex; align-items:center; gap: 0.5rem;">
-                        <i class="bi bi-person-circle"></i>
-                        <span>{{ Auth::user() ? Auth::user()->name : 'Admin' }}</span>
+                @php
+                    $name = Auth::user() ? Auth::user()->name : 'Admin User';
+                    $words = explode(' ', trim($name));
+                    $initials = '';
+                    if (count($words) >= 2) {
+                        $initials = strtoupper(substr($words[0], 0, 1) . substr(end($words), 0, 1));
+                    } else {
+                        $initials = strtoupper(substr($name, 0, min(2, strlen($name))));
+                    }
+                @endphp
+                <div class="bengkel-topbar-profile-container" style="position: relative;">
+                    <div class="bengkel-avatar-trigger" id="avatarTrigger">
+                        {{ $initials }}
                     </div>
-                    <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
-                        @csrf
-                        <button type="submit" style="background:none; border:none; color:var(--primary); cursor:pointer; font-weight:600; font-size: 0.875rem;">
-                            <i class="bi bi-box-arrow-right"></i> Logout
-                        </button>
-                    </form>
+                    <div class="bengkel-dropdown-card" id="profileDropdown" style="display: none;">
+                        <div class="bengkel-dropdown-header">
+                            <div class="bengkel-avatar-lg">
+                                {{ $initials }}
+                            </div>
+                            <div class="bengkel-user-name">{{ Auth::user() ? Auth::user()->name : 'Admin' }}</div>
+                            <div class="bengkel-user-email">{{ Auth::user() ? Auth::user()->email : '' }}</div>
+                            <div class="bengkel-user-joined">Member sejak {{ Auth::user() && Auth::user()->created_at ? Auth::user()->created_at->translatedFormat('M Y') : '' }}</div>
+                        </div>
+                        <div class="bengkel-dropdown-divider"></div>
+                        <div class="bengkel-dropdown-actions">
+                            <a href="{{ route('profile.edit') }}" class="bengkel-dropdown-btn">
+                                <i class="bi bi-person-gear"></i> Profile
+                            </a>
+                            <form method="POST" action="{{ route('logout') }}" style="margin: 0; width: 100%;">
+                                @csrf
+                                <button type="submit" class="bengkel-dropdown-btn btn-logout-danger">
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </header>
 
@@ -80,6 +105,29 @@
             </main>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const trigger = document.getElementById('avatarTrigger');
+            const dropdown = document.getElementById('profileDropdown');
+
+            if (trigger && dropdown) {
+                trigger.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+                        dropdown.style.display = 'block';
+                    } else {
+                        dropdown.style.display = 'none';
+                    }
+                });
+
+                document.addEventListener('click', function (e) {
+                    if (!dropdown.contains(e.target) && e.target !== trigger) {
+                        dropdown.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
     @stack('scripts')
 </body>
 </html>
